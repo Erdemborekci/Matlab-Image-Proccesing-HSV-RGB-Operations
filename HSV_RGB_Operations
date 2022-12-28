@@ -1,0 +1,83 @@
+
+clc
+clear all
+close all
+
+%Read Image
+I=imread("autumn.jpg");
+
+%Definition R,G,B Component
+I_R=I(:,:,1);
+I_G=I(:,:,2);
+I_B=I(:,:,3);
+
+%Display RGB image And R,G,B Channels 
+figure(1);
+subplot(2,2,1);
+imshow(I);
+title('RGB Image');
+subplot(2,2,2);
+imshow(I_R);
+title('Red Channel');
+subplot(2,2,3);
+imshow(I_G);
+title('Green Channel');
+subplot(2,2,4);
+imshow(I_B);
+title('Blue Channel');
+
+%Histogram Equalize Separately R,G,B Images
+Heq_R = histeq(I_R);
+Heq_G = histeq(I_G);
+Heq_B = histeq(I_B);
+Heq_Rgb = cat(3,Heq_R,Heq_G,Heq_B);
+
+%Display Equalize Separately R,G,B Images
+figure(2)
+subplot(2,2,1);
+imshow(Heq_R);
+title('Histogram Equalized Red Channel');
+subplot(2,2,2);
+imshow(Heq_G);
+title('Histogram Equalized Green Channel');
+subplot(2,2,3);
+imshow(Heq_B);
+title('Histogram Equalized Blue Channel');
+subplot(2,2,4);
+imshow(Heq_Rgb);
+title('Histogram Equalized All Channel');
+
+
+%Convert The Original Images To HSV Space
+I_hsv = rgb2hsv(I);
+%Histogram Equalize Only Value Channel
+Heq_v = histeq(I_hsv(:,:,3));
+I_hsv(:,:,3)= Heq_v;
+New_I_v=hsv2rgb(I_hsv);
+%Display Original Image And New Image
+figure(3);
+subplot(2,1,1);
+imshow(I);
+title('Original Image');
+subplot(2,1,2);
+imshow(New_I_v);
+title('Histogram Equalized Only Value Channel');
+figure(5)
+imhist(New_I_v);
+
+%Histogram Equalize Only Saturation Channel
+I_hsv = rgb2hsv(I);
+Heq_s = histeq(I_hsv(:,:,2));
+I_hsv(:,:,2)= Heq_s;
+New_I_s=hsv2rgb(I_hsv);
+%Display Original Image And New Image
+figure(4);
+subplot(2,1,1);
+imshow(I);
+title('Original Image');
+subplot(2,1,2);
+imshow(New_I_s);
+title('Histogram Equalized Only Saturation Channel');
+
+figure(6)
+imhist(New_I_s);
