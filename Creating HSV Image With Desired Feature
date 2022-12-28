@@ -1,0 +1,49 @@
+clc
+clear all
+close all
+%Generate 3 matrix include zeros 
+Hsv_h = zeros(300);
+Hsv_v = zeros(300);
+Hsv_s = zeros(300);
+
+%All hue are 1 
+for(i=1:300)
+    for(j=1:300)
+        Hsv_h(i,j)=1;
+    end 
+end
+
+%Value component linearly increase from 0 to 1 from left to right.
+for(i=1:300)
+    for(j=1:300)
+        Hsv_v(i,j)=Hsv_v(i,j)+(j-1)*(1/299);
+    end 
+end
+
+%Saturation component increase from 0 to 1 from top to bottom.
+for i=1:300
+    for j=1:300
+       Hsv_s(j,i)=Hsv_s(j,i)+(j-1)*(1/299);
+    end
+end
+
+%Generate Matrix 
+Hsv_I=cat(3,Hsv_h,Hsv_s,Hsv_v);
+%Convert hsv to rgb
+Rgb_I=hsv2rgb(Hsv_I);
+figure(1);
+imshow(Rgb_I);
+title('RGB Space');
+axis on;
+
+%Pixels 
+A=Rgb_I(1,20,:);
+B=Rgb_I(1,150,:);
+C=Rgb_I(1,250,:);
+
+D=Rgb_I(20,1,:);
+E=Rgb_I(150,1,:);
+F=Rgb_I(250,1,:);
+
+
+
